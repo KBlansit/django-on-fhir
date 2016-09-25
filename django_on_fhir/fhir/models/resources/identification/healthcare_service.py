@@ -11,73 +11,58 @@ from ../../complex_types/period import Period
 from ../../primitive_types/string import FhirString
 
 from organization import Organization
+from location import Location
 
 class HealthcareService(models.model):
-    identifier = models.ManyToMany(HealthcareServiceIdentifier, blank=True,
-        on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, blank=True)
+    providedBy = models.ForeignKey(Organization, blank=True)
     serviceCategory = models.ForeignKey(CodeableConcept, blank=True)
-    serviceType = models.ManyToMany(HealthcareService, blank=True,
-        on_delete=models.CASCADE)
-    # location
+    location = models.ForeignKey(Location)
     serviceName = models.CharField(blank=True)
     comment = models.CharField(blank=True)
     extraDetails = models.CharField(blank=True)
-    photo = models.ForeignKey(HealthcareServicePhoto, blank=True,
-        on_delete=models.CASCADE)
     telecom = models.ManyToMany(ContactPoint, blank=True)
-    # coverageArea =
-    serviceProvisionCode = models.ManyToMany(HealthcareServiceServiceProvisionCode,
-        blank=True, on_delete=models.CASCADE)
+    coverageArea = models.ManyToMany()
     eligibility = models.ForeignKey(CodeableConcept, blank=True)
     eligibilityNote = moddels.CharField(blank=True)
-    programName = models.ManyToMany(HealthcareServiceProgramName, blank=True,
-        on_delete=models.CASCADE)
-    characterstic = models.ManyToMany(HealthcareServiceCharacteristic,
-        blank=True, on_delete=model.CASCADE)
-    referralMethod = models.ManyToMany(HealthcareServiceReferralMethod,
-        blank=True, on_delete=models.CASCADE)
     publicKey = models.CharField(blank=True)
     appointmentRequired = models.BooleanField(blank=True)
-    availableTime = models.ManyToMany(HealthcareServiceAvailableTime,
-        blank=True, on_delete=models.CASCADE)
-    notAvailableTime = models.ManyToMany(HealthcareServiceNotAvailable,
-    blank=True, on_delete=models.CASCADE)
 
 class HealthcareServiceIdentifier(Identifier):
-    pass
+    healthcareService = models.ManyToMany(HealthcareService)
 
 class HealthcareServiceServiceType(model.model):
+    healthcareService = models.ManyToMany(HealthcareService)
     type = models.ForeignKey(CodeableConcept)
     specialty = models.ManyToMany(ServiceTypeSpecialty,
         blank=True, on_delete=moels.CASCADE)
 
 class ServiceTypeSpecialty(CodeableConcept):
-    pass
+    healthcareService = models.ManyToMany(HealthcareService)
 
 class HealthcareServicePhoto(Attachment):
-    pass
+    healthcareService = models.ManyToMany(HealthcareService)
 
 class HealthcareServiceTelecom(ContactPoint):
-    pass
+    healthcareService = models.ManyToMany(HealthcareService)
 
-class HealthServiceCoverageArea(models.model):
-    # location =
+class healthcareServiceCoverageArea(models.model):
+    healthcareService = models.ManyToMany(HealthcareService)
+    location = models.ForeignKey(Location)
 
 class HealthcareServiceServiceProvisionCode(CodeableConcept):
-    pass
+    healthcareService = models.ManyToMany(HealthcareService)
 
 class HealthcareServiceProgramName(FhirString):
-    pass
+    healthcareService = models.ManyToMany(HealthcareService)
 
 class HealthcareServiceCharacteristic(CodeableConcept):
-    pass
+    healthcareService = models.ManyToMany(HealthcareService)
 
 class HealthcareServiceReferralMethod(CodeableConcept):
-    pass
+    healthcareService = models.ManyToMany(HealthcareService)
 
 class HealthcareServiceAvailableTime(models.model):
-    daysOfWeek = models.ManyToMany(AvailableTimeDaysOfWeek, blank=True)
+    healthcareService = models.ManyToMany(HealthcareService)
     allDay = models.BooleanField(blank=True)
     availableStartTime = models.TimeField(blank=True)
     availableEndTime = models.TimeField(blank=True)
@@ -87,6 +72,7 @@ class AvailableTimeDaysOfWeek(model.model):
 
     DAY_CHOICES = ['mon', 'tues', 'wed', 'thu', 'fri', 'sat', 'sun']
 
+    availableTime = models.ManyToMany(HealthcareServiceAvailableTime)
     dayOfWeek = models.CharField(choices = DAY_CHOICES)
 
 class HealthcareServiceNotAvailable(models.model):

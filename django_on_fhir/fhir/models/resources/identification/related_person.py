@@ -18,28 +18,21 @@ class RelatedPerson(models.model):
 
     GENDER_CHOICES = ['male', 'female', 'other', 'unknown']
 
-    identifier = models.ManyToMany(Identifier, blank=True)
     patient = models.ForeignKey(Patient)
     relationship = models.ForeignKey(CodeableConcept)
     name = models.ForeignKey(HumanName, blank=True)
-    telecom = models.ManyToMany(RelatedPersonTelecom, blank=True,
-        on_delete=models.CASCADE)
     gender = models.CharField(choices=GENDER_CHOICES, blank=True)
     birthDate = models.DateTimeField(blank=True)
-    address = models.ManyToMany(RelatedPersonAddress, blank=True,
-        on_delete=models.CASCADE)
-    photo = models.ManyToMany(RelatedPersonPhoto, blank=True,
-        on_delete=models.CASCADE)
     period = models.ForeignKey(Period, on_delete=models.CASCADE)
 
 class RelatedPersonIdentifier(Identifier):
-    pass
+    realtedPerson = models.ManyToMany(RealtedPerson)
 
 class RelatedPersonTelecom(ContactPoint):
-    pass
+    realtedPerson = models.ManyToMany(RealtedPerson)
 
 class RelatedPersonAddress(Address):
-    pass
+    realtedPerson = models.ManyToMany(RealtedPerson)
 
 class RelatedPersonPhoto(Attachment):
-    pass
+    realtedPerson = models.ManyToMany(RealtedPerson)

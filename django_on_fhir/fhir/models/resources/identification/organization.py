@@ -10,29 +10,23 @@ from ../../complex_types/human_name import HumanName
 from ../../complex_types/telecom import Telecom
 
 class Organization(models.model):
-    identifier = models.ManyToMany(OrganizationIdentifier, blank=True,
-        on_delete=models.CASCADE)
     active = models.BooleanField(blank=True)
     type = models.ForeignKey(CodeableConcept, blank=True)
     name = models.CharField(blank=True)
-    telecom = models.ManyToMany(OrganizationTelecom, blank=True,
-        on_delete=models.CASCADE)
-    address = models.ManyToMany(OrganizationAddress, blank=True,
-        on_delete=models.CASCADE)
     partOf = models.ForeignKey('self', blank=True)
 
-class OrganizationContact(models.model):
-    purpose = models.ForeignKey(CodeableConcept, blank=True)
-    name = models.ForeignKey(HumanName, blank=True)
-    telecom = models.ManyToMany(OrganizationTelecom, blank=True,
-        on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, blank=True)
-
 class OrganizationIdentifier(Identifier):
-    pass
+    organization = ManyToMany(Organization)
 
 class OrganizationAddress(Address):
-    pass
+    organization = ManyToMany(Organization)
 
-class OrganizationTelecom(ContactPoint)
-    pass
+class OrganizationContact(models.model):
+    organization = ManyToMany(Organization)
+    provider = ManyToMany(Organization)
+    purpose = models.ForeignKey(CodeableConcept, blank=True)
+    name = models.ForeignKey(HumanName, blank=True)
+    address = models.ForeignKey(Address, blank=True)
+
+class OrganizationContactTelecom(ContactPoint)
+    organizationContact = ManyToMany(OrganizationContact)

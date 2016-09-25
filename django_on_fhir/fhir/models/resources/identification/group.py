@@ -8,8 +8,6 @@ from ../../complex_types/quantity import Quantity
 from ../../complex_types/period import Period
 
 class Group(models.model):
-    identifier = models.ManyToMany(GroupIdentifier, blank=True,
-        on_delete=models.CASCADE)
     type = models.CharField()
     actual = models.BooleanField()
     code = models.ForeignKey(CodeableConcept, blank=True)
@@ -17,11 +15,12 @@ class Group(models.model):
     quantity = models.PositiveInteger(blank=True)
 
 class GroupIdentifier(Identifier):
-    pass
+    group = models.ManyToMany(Group)
 
 class GroupCharacteristic(models.model):
     VALUE_CHOICES = ['codeable_concept', 'boolean', 'quantity', 'range']
 
+    group = models.ManyToMany(Group)
     code = models.ForeignKey(CodeableConcept)
     valueType = models.Char(choices=VALUE_CHOICES)
     valueCodeableConcept = models.ForeignKey(CodeableConcept, blank=True,
@@ -31,3 +30,9 @@ class GroupCharacteristic(models.model):
         on_delete=models.CASCADE)
     exclude = models.BooleanField()
     period = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE)
+
+class GroupMember(models.model):
+    group = models.ManyToMany(Group)
+    # entity =
+    period = models.ForeignKey(Period, blank=True)
+    inactive = models.BooleanField(blank=True)

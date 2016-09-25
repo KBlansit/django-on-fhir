@@ -12,6 +12,8 @@ from ../../complex_types/contact_point import ContactPoint
 from ../../complex_types/address import Address
 from ../../complex_types/period import Period
 
+from organization import Organization
+
 class Patient(models.model):
     # TODO: AdministrativeGender required for gender
     # TODO: Martial Ststus Codes required for martialStatus
@@ -25,79 +27,60 @@ class Patient(models.model):
     DECEASED_TYPE = ['boolean', 'date_time']
     Multiple_Birth_Type = ['boolean', 'integer']
 
-    identifier = models.ManyToMany(Identifier, blank=False, on_delete=models.CASCADE)
     active = models.BooleanField(blank=True)
-    name = models.ManyToMany(PatientName, blank=True,
-        on_delete=models.CASCADE)
-    telecom = models.ManyToMany(ContactPoint, blank=False,
-        on_delete=models.CASCADE)
     gender = models.CharField(choices=GENDER_CHOICES, blank=False)
     birthDate = models.DateTimeField(blank=True)
-
-    # deceased
-    multipleBirth = models.BooleanField()
     deceasedType = models.CharField(choices=DECEASED_TYPE, blank=True)
     deceasedBoolean = models.BooleanField(blank=True)
     deceasedDateTime = models.DateTimeField(blank=True)
-
-    address = models.ManyToMany(Address, blank=True, on_delete=models.CASCADE)
     martialStatus = models.CharField(blank=True)
-
-    # multipleBirth
     multipleBirth = models.BooleanField()
     multipleBirthType = models.CharField(blank=True)
     multipleBirthBoolean = models.BooleanField(blank=True)
     multipleBirthInteger = models.IntegerField(blank=True)
 
-    photo = models.ManyToMany(PatientPhoto, blank=True, on_delete=models.CASCADE)
-    contact = models.ManyToMany(PatientContact, blank=True,
-        on_delete=models.CASCADE)
     animal = models.ForeignKey(PatientAnimal, blank=True)
-    communication = models.ManyToMany(PatientCommunication, blank=True,
-        on_delete=models.CASCADE)
     # careProvider = models.CharField(blank=True)
-    # managingOrganization = CharField(blank=True)
-    link = models.ManyToMany(PatientLink, blank=True)
+    managingOrganization = models.ForeignKey(Organization, blank=True)
 
 class PatientIdentifier(Identifier):
-    pass
+    patient = ManyToMany(Patient)
 
 class PatientName(HumanName):
-    pass
+    patient = ManyToMany(Patient)
 
 class PatientTelecom(ContactPoint):
-    pass
+    patient = ManyToMany(Patient)
 
 class PatientAddress(Address):
-    pass
+    patient = ManyToMany(Patient)
 
 class PatientPhoto(Attachment):
-    pass
+    patient = ManyToMany(Patient)
 
 class PatientContact(models.model):
-    # TODO: refactor PatientContact: organization to refer to actual organization
-
-    relationship = models.ManyToMany(ContactRelationship, blank=True,
-        on_delete=models.CASCADE)
+    patient = ManyToMany(Patient)
     name = models.ForeignKey(HumanName, blank=True)
     telecom = models.ForeignKey(ContactPoint, blank=True)
     address = models.ForeignKey(Address, blank=True)
     gender = models.CharField(choices = GENDER_CHOICES, blank=True)
-    organization = models.CharField(blank=True)
+    organization = models.ForeignKey(organization, blank=True)
     period = models.ForeignKey(Period, blank=True)
 
 class ContactRelationship(CodeableConcept):
-    pass
+    patient = ManyToMany(PatientContact)
 
 class ContactTelecom(ContactPoint):
-    pass
+    patient = ManyToMany(PatientContact)
 
 class PatientAnimal(models.model):
+    patient = ManyToMany(Patient)
     species = models.ForeignKey(CodeableConcept)
     breed = models.ForeignKey(CodeableConcept, blank=True)
     genderStatus = models.ForeignKey(CodeableConcept, blank=True)
 
 class PatientCommunication(models.model):
+    patient = ManyToMany(Patient)
     language = models.ForeignKey(CodeableConcept)
     preferred = models.BooleanField(blank=True)
 
@@ -106,5 +89,6 @@ class PatientLink(models.model):
 
     TYPE_CHOICES = ['replace', 'refer', 'seealso']
 
+    patient = ManyToMany(Patient)
     other = models.ForeignKey(Patient)
     type = models.CharField(choices=TYPE_CHOICES)
