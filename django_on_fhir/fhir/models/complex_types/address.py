@@ -2,25 +2,34 @@ from __future__ import unicode_literals
 from django.db import models
 
 # import additional models
-from ..primitive_types.string import FhirString
+from fhir.models.primiative_types.string import FhirString
 from period import Period
 
 class Address(models.Model):
     # TODO: AddressUse required for use
     # TODO: AddressType required for type
 
-    USE_CHOICES = ['home', 'work', 'temp', 'old']
-    TYPE_CHOICES = ['postal', 'physical', 'both']
+    USE_CHOICES = [
+    ('home', 'home'),
+    ('work', 'work'),
+    ('temp', 'temp'),
+    ('old', 'old'),
+    ]
+    TYPE_CHOICES = [
+    ('postal', 'period'),
+    ('physical', 'physical'),
+    ('both', 'both'),
+    ]
 
-    use = models.CharField(choices=USE_CHOICES, blank=True)
-    type = models.CharField(choices=TYPE_CHOICES, blank=True)
-    text = models.CharField(blank=True)
-    line = models.ManyToManyField(FhirString, blank=True,
-        on_delete=models.CASCADE)
-    city = models.CharField(blank=True)
-    district = models.CharField(blank=True)
-    state = models.CharField(blank=True)
-    postalCode = models.CharField(blank=True)
-    country = models.CharField(blank=True)
-    period = models.ForeignKey(Period, blank=True,
-        on_delete=models.CASCADE)
+    use = models.CharField(choices=USE_CHOICES, blank=True, max_length=100)
+    type = models.CharField(choices=TYPE_CHOICES, blank=True, max_length=100)
+    text = models.TextField()
+    city = models.CharField(blank=True, max_length=100)
+    district = models.CharField(blank=True, max_length=100)
+    state = models.CharField(blank=True, max_length=100)
+    postalCode = models.CharField(blank=True, max_length=100)
+    country = models.CharField(blank=True, max_length=100)
+    period = models.ForeignKey(Period, blank=True)
+
+class AddressFhirString(FhirString):
+    address = models.ManyToManyField(Address)

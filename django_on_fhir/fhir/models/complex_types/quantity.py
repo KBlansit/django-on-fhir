@@ -5,10 +5,15 @@ class Quantity(models.Model):
     # TODO: verify that if a code unit is present, system is requied
     # TODO: QuantityComparator required for comparator
 
-    COMPARATOR = ['<', '<=', '>=', '>']
+    COMPARATOR = [
+    ('<', 'less than'),
+    ('<=', 'less than or equal to'),
+    ('>=', 'greater than or equal to'),
+    ('>', 'greater than'),
+    ]
 
-    value = models.DecimalField(blank=True)
-    comparator = models.CharField(choices=COMPARATOR, blank=True)
-    unit = models.CharField(blank=True)
+    value = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
+    comparator = models.CharField(choices=COMPARATOR, blank=True, max_length=100)
+    unit = models.CharField(blank=True, max_length=100)
     system = models.URLField(blank=True)
-    code = models.CharField(blank=True)
+    code = models.CharField(blank=True, max_length=100)

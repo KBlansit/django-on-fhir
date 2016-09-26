@@ -6,9 +6,9 @@ class Signature(models.Model):
     # TODO: refactor whoReference to link to an actual person
     # TODO: refactor blob for file reference
 
-    type = models.CharField()
+    type = models.CharField(max_length=100)
     when = models.DateTimeField()
     whoUri = models.URLField()
-    whoReference = models.CharField()
+    whoReference = models.CharField(max_length=100)
     contentType = models.URLField()
     blob = models.BinaryField()

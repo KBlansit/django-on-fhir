@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
 from django.db import models
 
-class FhirString(models.Model)
-    string = models.CharField()
+class FhirString(models.Model):
+    string = models.TextField()

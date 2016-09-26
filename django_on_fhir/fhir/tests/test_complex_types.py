@@ -1,10 +1,10 @@
-rom django.test import TestCase
+from django.test import TestCase
 
 class AddressTestCase(TestCase):
     from fhir.models.complex_types.address import Address
 
 class AnnotationTestCase(TestCase):
-    from fhir.models.complex_types.annotation import Annotation
+    from complex_types.annotation import Annotation
 
 class AttachmentTestCase(TestCase):
     from fhir.models.complex_types.attachment import Attachment
@@ -43,4 +43,4 @@ class SimpleQuantityTestCase(TestCase):
     from fhir.models.complex_types.simple_quantity import SimpleQuantity
 
 class TimingTestCase(TestCase):
-    from fhir.models.complex_types.timing import Timing
+    from fhir.models.complex_types.timing import Timing, RepeatTiming

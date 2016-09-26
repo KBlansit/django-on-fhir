@@ -12,9 +12,9 @@ class Identifier(models.Model):
 
     USE_CHOICES = ['usual', 'official', 'temp', 'secondary']
 
-    use = models.CharField(balnk=True)
+    use = models.CharField(blank=True, max_length=100)
     type = models.ForeignKey(CodeableConcept, blank=True, on_delete=models.CASCADE)
     system = models.URLField(blank=True)
-    value = models.CharField()
+    value = models.CharField(max_length=100)
     period = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE)
-    assigner = models.CharField()
+    assigner = models.CharField(max_length=100)

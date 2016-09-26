@@ -90,3 +90,4 @@ ENV/
 
 # other ignore
 *db.*
+fhir/migrations/

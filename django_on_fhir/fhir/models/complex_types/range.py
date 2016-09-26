@@ -8,5 +8,10 @@ from simple_quantity import SimpleQuantity
 class Range(models.Model):
     # TODO: verify that high has in fact a higher value
 
-    low = ForeignKey(SimpleQuantity, blank=True)
-    high = ForeignKey(SimpleQuantity, blank=True)
+    pass
+
+class RangeSimpleHigh(SimpleQuantity):
+    range = models.ForeignKey(Range, on_delete=models.CASCADE)
+
+class RangeSimpleLow(SimpleQuantity):
+    range = models.ForeignKey(Range, on_delete=models.CASCADE)
