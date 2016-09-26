@@ -12,7 +12,7 @@ from ../../complex_types/period import Period
 
 from patient import Patient
 
-class RelatedPerson(models.model):
+class RelatedPerson(models.Model):
     # TODO: need to create table of relationships for relationship
     # TODO: need to create table of AdministrativeGender for gender
 
@@ -26,13 +26,13 @@ class RelatedPerson(models.model):
     period = models.ForeignKey(Period, on_delete=models.CASCADE)
 
 class RelatedPersonIdentifier(Identifier):
-    realtedPerson = models.ManyToMany(RealtedPerson)
+    realtedPerson = models.ManyToManyField(RealtedPerson)
 
 class RelatedPersonTelecom(ContactPoint):
-    realtedPerson = models.ManyToMany(RealtedPerson)
+    realtedPerson = models.ManyToManyField(RealtedPerson)
 
 class RelatedPersonAddress(Address):
-    realtedPerson = models.ManyToMany(RealtedPerson)
+    realtedPerson = models.ManyToManyField(RealtedPerson)
 
 class RelatedPersonPhoto(Attachment):
-    realtedPerson = models.ManyToMany(RealtedPerson)
+    realtedPerson = models.ManyToManyField(RealtedPerson)

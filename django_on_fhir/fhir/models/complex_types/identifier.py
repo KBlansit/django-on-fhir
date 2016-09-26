@@ -5,7 +5,7 @@ from django.db import models
 from codeable_concept import CodeableConcept
 from period import Period
 
-class Identifier(models.model):
+class Identifier(models.Model):
     # TODO: IdentifierUse required for use
     # TODO: IdentifierUse required for type
     # TODO: refactor assigner to org

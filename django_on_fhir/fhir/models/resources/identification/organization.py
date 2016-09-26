@@ -9,24 +9,24 @@ from ../../complex_types/address import Address
 from ../../complex_types/human_name import HumanName
 from ../../complex_types/telecom import Telecom
 
-class Organization(models.model):
+class Organization(models.Model):
     active = models.BooleanField(blank=True)
     type = models.ForeignKey(CodeableConcept, blank=True)
     name = models.CharField(blank=True)
     partOf = models.ForeignKey('self', blank=True)
 
 class OrganizationIdentifier(Identifier):
-    organization = ManyToMany(Organization)
+    organization = ManyToManyField(Organization)
 
 class OrganizationAddress(Address):
-    organization = ManyToMany(Organization)
+    organization = ManyToManyField(Organization)
 
-class OrganizationContact(models.model):
-    organization = ManyToMany(Organization)
-    provider = ManyToMany(Organization)
+class OrganizationContact(models.Model):
+    organization = ManyToManyField(Organization)
+    provider = ManyToManyField(Organization)
     purpose = models.ForeignKey(CodeableConcept, blank=True)
     name = models.ForeignKey(HumanName, blank=True)
     address = models.ForeignKey(Address, blank=True)
 
 class OrganizationContactTelecom(ContactPoint)
-    organizationContact = ManyToMany(OrganizationContact)
+    organizationContact = ManyToManyField(OrganizationContact)

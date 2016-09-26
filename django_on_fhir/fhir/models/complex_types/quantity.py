@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 
-class Quantity(models.model):
+class Quantity(models.Model):
     # TODO: verify that if a code unit is present, system is requied
     # TODO: QuantityComparator required for comparator
 

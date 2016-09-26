@@ -9,7 +9,7 @@ from ../../complex_types/address import Address
 
 from organization import Organization
 
-class Location(models.model):
+class Location(models.Model):
     # TODO: LocationStatus required for status
     # TODO: LocationMode required for mode
 
@@ -25,13 +25,13 @@ class Location(models.model):
     partOf = models.ForeignKey('self', blank=True)
 
 class LocationIdentifier(Identifier):
-    location = models.ManyToMany(Location)
+    location = models.ManyToManyField(Location)
 
 class LocationTelecom(ContactPoint):
-    location = models.ManyToMany(Location)
+    location = models.ManyToManyField(Location)
 
-class LocationPosition(models.model):
-    location = models.ManyToMany(Location)
+class LocationPosition(models.Model):
+    location = models.ManyToManyField(Location)
     longitude = models.DecimalField()
     latitude = models.DecimalField()
     altitude = models.DecimalField(blank=True)

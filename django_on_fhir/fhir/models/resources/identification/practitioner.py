@@ -12,7 +12,7 @@ from ../../complex_types/period import Period
 
 from organization import Organization
 
-class Practitioner(models.model):
+class Practitioner(models.Model):
     # TODO: AdministrativeGender required for gender
 
     GENDER_CHOICES = ['male', 'female', 'other', 'unknown']
@@ -22,43 +22,43 @@ class Practitioner(models.model):
     birthDate = models.DateTimeField(blank=True)
 
 class PractitionerIdentifier(Identifier):
-    practitioner = ManyToMany(Practitioner)
+    practitioner = ManyToManyField(Practitioner)
 
 class PractitionerTelecom(ContactPoint):
-    practitioner = ManyToMany(Practitioner)
+    practitioner = ManyToManyField(Practitioner)
 
 class PractitionerAddress(Address):
-    practitioner = ManyToMany(Practitioner)
+    practitioner = ManyToManyField(Practitioner)
 
 class PractitionerPhoto(Attachment):
-    practitioner = ManyToMany(Practitioner)
+    practitioner = ManyToManyField(Practitioner)
 
-class PractitionerRole(models.model):
-    practitioner = models.ManyToMany(Practitioner)
+class PractitionerRole(models.Model):
+    practitioner = models.ManyToManyField(Practitioner)
     managingOrganization = models.ForeignKey(Organization, blank=True)
     role = models.ForeignKey(CodeableConcept, blank=True)
-    specialty = models.ManyToMany(CodeableConcept, blank=True)
+    specialty = models.ManyToManyField(CodeableConcept, blank=True)
     period = models.ForeignKey(Period, blank=True)
 
-class PractitionerRoleLocation(models.model):
-    practitionerRole = models.ManyToMany(PractitionerRole)
+class PractitionerRoleLocation(models.Model):
+    practitionerRole = models.ManyToManyField(PractitionerRole)
     location = models.ForeignKey(Location)
 
-class PractitionerRoleHealthcareService(models.model):
-    practitionerRole = models.ManyToMany(PractitionerRole)
+class PractitionerRoleHealthcareService(models.Model):
+    practitionerRole = models.ManyToManyField(PractitionerRole)
     location = models.ForeignKey(HealthcareService)
 
-class PractitionerQualification(models.model):
-    provider = models.ManyToMany(Provider)
-    identifier = models.ManyToMany(Identifier, blank=True)
+class PractitionerQualification(models.Model):
+    provider = models.ManyToManyField(Provider)
+    identifier = models.ManyToManyField(Identifier, blank=True)
     code = models.ForeignKey(CodeableConcept, blank=True)
     period = models.ForeignKey(Period, blank=True)
     issuer = models.ForeignKey(Organization)
 
 class PractitionerQualificationIdentifier(Identifier):
-    PractitionerQualification = models.ManyToMany(PractitionerQualification)
+    PractitionerQualification = models.ManyToManyField(PractitionerQualification)
 
 class ProviderCommunication(CodeableConcept):
     # TODO: add in language suppoert
 
-    provider = ManyToMany(Provider)
+    provider = ManyToManyField(Provider)

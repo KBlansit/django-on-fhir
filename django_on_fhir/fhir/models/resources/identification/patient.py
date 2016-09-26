@@ -14,7 +14,7 @@ from ../../complex_types/period import Period
 
 from organization import Organization
 
-class Patient(models.model):
+class Patient(models.Model):
     # TODO: AdministrativeGender required for gender
     # TODO: Martial Ststus Codes required for martialStatus
     # TODO: AdministrativeGender required for contact: geneder
@@ -44,22 +44,22 @@ class Patient(models.model):
     managingOrganization = models.ForeignKey(Organization, blank=True)
 
 class PatientIdentifier(Identifier):
-    patient = ManyToMany(Patient)
+    patient = ManyToManyField(Patient)
 
 class PatientName(HumanName):
-    patient = ManyToMany(Patient)
+    patient = ManyToManyField(Patient)
 
 class PatientTelecom(ContactPoint):
-    patient = ManyToMany(Patient)
+    patient = ManyToManyField(Patient)
 
 class PatientAddress(Address):
-    patient = ManyToMany(Patient)
+    patient = ManyToManyField(Patient)
 
 class PatientPhoto(Attachment):
-    patient = ManyToMany(Patient)
+    patient = ManyToManyField(Patient)
 
-class PatientContact(models.model):
-    patient = ManyToMany(Patient)
+class PatientContact(models.Model):
+    patient = ManyToManyField(Patient)
     name = models.ForeignKey(HumanName, blank=True)
     telecom = models.ForeignKey(ContactPoint, blank=True)
     address = models.ForeignKey(Address, blank=True)
@@ -68,27 +68,27 @@ class PatientContact(models.model):
     period = models.ForeignKey(Period, blank=True)
 
 class ContactRelationship(CodeableConcept):
-    patient = ManyToMany(PatientContact)
+    patient = ManyToManyField(PatientContact)
 
 class ContactTelecom(ContactPoint):
-    patient = ManyToMany(PatientContact)
+    patient = ManyToManyField(PatientContact)
 
-class PatientAnimal(models.model):
-    patient = ManyToMany(Patient)
+class PatientAnimal(models.Model):
+    patient = ManyToManyField(Patient)
     species = models.ForeignKey(CodeableConcept)
     breed = models.ForeignKey(CodeableConcept, blank=True)
     genderStatus = models.ForeignKey(CodeableConcept, blank=True)
 
-class PatientCommunication(models.model):
-    patient = ManyToMany(Patient)
+class PatientCommunication(models.Model):
+    patient = ManyToManyField(Patient)
     language = models.ForeignKey(CodeableConcept)
     preferred = models.BooleanField(blank=True)
 
-class PatientLink(models.model):
+class PatientLink(models.Model):
     # TODO: LinkType required for PatientLink: type
 
     TYPE_CHOICES = ['replace', 'refer', 'seealso']
 
-    patient = ManyToMany(Patient)
+    patient = ManyToManyField(Patient)
     other = models.ForeignKey(Patient)
     type = models.CharField(choices=TYPE_CHOICES)

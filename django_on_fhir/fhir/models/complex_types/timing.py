@@ -7,15 +7,15 @@ from quantity import Quantity
 from fhir_range import Range
 from period import Period
 
-class Timing(models.model):
+class Timing(models.Model):
     # TODO: TimingAbbreviation preferred for code
     CODE_CHOICES = ['QD', 'QOD', 'Q4D', 'Q6D', 'BID', 'TID', 'QID', 'AM', 'PM']
 
-    event = models.ManyToMany(FhirDateTime, blank=True, on_delete=models.CASCADE)
+    event = models.ManyToManyField(FhirDateTime, blank=True, on_delete=models.CASCADE)
     repeat = models.ForeignKey(RepeatTiming, blank=True, on_delete=models.CASCADE)
     code = models.CharField(choices=CODE_CHOICES, blank=True)
 
-class RepeatTiming(models.model):
+class RepeatTiming(models.Model):
     # TODO: better way to model which type of bound?
     # TODO: assert tests that only single bounds type is used
     # TODO: assert that if boundsType = NULL that bounds are in fact null

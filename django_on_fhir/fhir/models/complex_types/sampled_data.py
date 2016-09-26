@@ -4,7 +4,7 @@ from django.db import models
 # import additional models
 from simple_quantity import SimpleQuantity
 
-class SampledData(models.model):
+class SampledData(models.Model):
     # TODO: restrict data field to either strings or DATA_CHOICES
     DATA_CHOICES = ['E', 'U', 'L']
 

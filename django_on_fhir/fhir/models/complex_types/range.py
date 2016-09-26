@@ -5,7 +5,7 @@ from django.db import models
 # import additional models
 from simple_quantity import SimpleQuantity
 
-class Range(models.model):
+class Range(models.Model):
     # TODO: verify that high has in fact a higher value
 
     low = ForeignKey(SimpleQuantity, blank=True)

@@ -4,7 +4,7 @@ from django.db import models
 # import additional models
 from quantity import Quantity
 
-class Ratio(models.model):
+class Ratio(models.Model):
     # TODO: verify existance state of both numerator and denominator is the same
     # TODO: if both nonexistant, there should be some extension present
 

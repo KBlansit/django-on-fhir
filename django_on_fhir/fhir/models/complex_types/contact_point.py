@@ -4,7 +4,7 @@ from django.db import models
 # import additional models
 from period import Period
 
-class ContactPoint(models.model)
+class ContactPoint(models.Model)
     # TODO: ContactPointSystem required for system
     # TODO: ContactPointUse required for use
     # TODO: verify value is present if system is present

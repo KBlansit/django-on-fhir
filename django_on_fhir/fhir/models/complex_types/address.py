@@ -5,7 +5,7 @@ from django.db import models
 from ../primitive_type/string import FhirString
 from period import Period
 
-class Address(models.model):
+class Address(models.Model):
     # TODO: AddressUse required for use
     # TODO: AddressType required for type
 
@@ -15,7 +15,7 @@ class Address(models.model):
     use = models.CharField(choices=USE_CHOICES, blank=True)
     type = models.CharField(choices=TYPE_CHOICES, blank=True)
     text = models.CharField(blank=True)
-    line = models.ManyToMany(FhirString, blank=True, on_delete=models.CASCADE)
+    line = models.ManyToManyField(FhirString, blank=True, on_delete=models.CASCADE)
     city = models.CharField(blank=True)
     district = models.CharField(blank=True)
     state = models.CharField(blank=True)

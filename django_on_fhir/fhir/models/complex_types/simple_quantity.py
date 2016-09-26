@@ -6,7 +6,7 @@ from quantity import Quantity
 
 class SimpleQuantity(Quantity):
     # TODO: make test assertion that SimpleQuantity doesn't have comparator
-    
+
     @property
     def comparator(self):
         raise AttributeError
