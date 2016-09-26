@@ -25,13 +25,13 @@ class HumanName(models.Model):
         on_delete=models.CASCADE)
 
 class HumanNameFamily(FhirString):
-    HumanName = models.ManyToManyField(HumanName)
+    humanName = models.ManyToManyField(HumanName)
 
 class HumanNameGiven(FhirString):
-    HumanName = models.ManyToManyField(HumanName)
+    humanName = models.ManyToManyField(HumanName)
 
 class HumanNamePrefix(FhirString):
-    HumanName = models.ManyToManyField(HumanName)
+    humanName = models.ManyToManyField(HumanName)
 
 class HumanNameSuffix(FhirString):
-    HumanName = models.ManyToManyField(HumanName)
+    humanName = models.ManyToManyField(HumanName)

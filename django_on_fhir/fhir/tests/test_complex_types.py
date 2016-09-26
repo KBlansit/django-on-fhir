@@ -4,11 +4,12 @@ from django.test import TestCase
 from fhir.models.complex_types.address import Address, AddressFhirString
 from fhir.models.complex_types.annotation import Annotation
 from fhir.models.complex_types.attachment import Attachment
-from fhir.models.complex_types.codeable_concept import CodeableConcept, CodeableConceptCoding
+from fhir.models.complex_types.codeable_concept import CodeableConcept, \
+    CodeableConceptCoding
 from fhir.models.complex_types.coding import Coding
 from fhir.models.complex_types.contact_point import ContactPoint
-from fhir.models.complex_types.human_name import HumanName, HumanNameFamily, HumanNameGiven\
-    , HumanNameSuffix
+from fhir.models.complex_types.human_name import HumanName, HumanNameFamily, \
+    HumanNameGiven, HumanNamePrefix, HumanNameSuffix
 from fhir.models.complex_types.identifier import Identifier
 from fhir.models.complex_types.period import Period
 from fhir.models.complex_types.quantity import Quantity
@@ -58,7 +59,73 @@ class ContactPointTestCase(TestCase):
     pass
 
 class HumanNameTestCase(TestCase):
-    pass
+    def setUp(self):
+        self.test_human_name = HumanName()
+        self.test_human_name.save()
+
+    def test_can_add_multiple_family_names(self):
+
+        test_lst = [
+            "Karl",
+            "Frank",
+        ]
+
+        # make list of HumanNameFamily objects
+        obj_lst = [HumanNameFamily(string=x) for x in test_lst]
+        [x.save() for x in obj_lst]
+        [x.humanName.add(self.test_human_name) for x in obj_lst]
+
+        for x in HumanName.objects.get(pk=1).humannamefamily_set.all():
+            self.assertIn(str(x.string), test_lst)
+
+    def test_can_add_multiple_given_names(self):
+
+        test_lst = [
+            "Sue",
+            "Scott",
+        ]
+
+        # make list of HumanNameGiven objects
+        obj_lst = [HumanNameGiven(string=x) for x in test_lst]
+        [x.save() for x in obj_lst]
+        [x.humanName.add(self.test_human_name) for x in obj_lst]
+
+        for x in HumanName.objects.get(pk=1).humannamegiven_set.all():
+            self.assertIn(str(x.string), test_lst)
+
+    def test_can_add_multiple_prefix_names(self):
+
+        test_lst = [
+            "Doctor",
+            "Sir",
+            "Honor",
+            "Ms",
+        ]
+
+        # make list of HumanNamePrefix objects
+        obj_lst = [HumanNamePrefix(string=x) for x in test_lst]
+        [x.save() for x in obj_lst]
+        [x.humanName.add(self.test_human_name) for x in obj_lst]
+
+        for x in HumanName.objects.get(pk=1).humannameprefix_set.all():
+            self.assertIn(str(x.string), test_lst)
+
+    def test_can_add_multiple_Suffix_names(self):
+
+        test_lst = [
+            "M.D.",
+            "M.S.",
+            "Ph.D.",
+            "M.B.A.",
+        ]
+
+        # make list of HumanNameSuffix objects
+        obj_lst = [HumanNameSuffix(string=x) for x in test_lst]
+        [x.save() for x in obj_lst]
+        [x.humanName.add(self.test_human_name) for x in obj_lst]
+
+        for x in HumanName.objects.get(pk=1).humannamesuffix_set.all():
+            self.assertIn(str(x.string), test_lst)
 
 class IdentifierTestCase(TestCase):
     pass
