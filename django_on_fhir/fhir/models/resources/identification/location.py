@@ -9,18 +9,31 @@ from fhir.models.complex_types.address import Address
 
 from organization import Organization
 
+class LocationType(CodeableConcept):
+    pass
+
 class Location(models.Model):
     # TODO: LocationStatus required for status
     # TODO: LocationMode required for mode
 
-    STATUS_CHOICES = ['active', 'suspended', 'inactive']
-    MODE_CHOICES = ['instance', 'kind']
+    STATUS_CHOICES = [
+        ('active', 'active'),
+        ('suspended', 'suspended'),
+        ('inactive', 'inactive'),
+    ]
+    MODE_CHOICES = [
+        ('instance', 'instance'),
+        ('kind', 'kind'),
+    ]
 
-    status = models.CharField(choices=STATUS_CHOICES, blank=True)
-    name = models.CharField(blank=True)
-    description = models.CharField(choices=STATUS_CHOICES, blank=True)
-    mode = models.CharField(choices=MODE_CHOICES, blank=True)
-    type = models.ForeignKey(CodeableConcept)
+    status = models.CharField(choices=STATUS_CHOICES, blank=True, null=True,
+        max_length=100)
+    name = models.CharField(blank=True, null=True, max_length=100)
+    description = models.CharField(choices=STATUS_CHOICES, blank=True, null=True,
+        max_length=1000)
+    mode = models.CharField(choices=MODE_CHOICES, blank=True, null=True,
+        max_length=100)
+    type = models.ManyToManyField(LocationType)
     managingOrganization = models.ForeignKey(Organization, blank=True)
     partOf = models.ForeignKey('self', blank=True)
 
@@ -32,6 +45,7 @@ class LocationTelecom(ContactPoint):
 
 class LocationPosition(models.Model):
     location = models.ManyToManyField(Location)
-    longitude = models.DecimalField()
-    latitude = models.DecimalField()
-    altitude = models.DecimalField(blank=True)
+    longitude = models.DecimalField(max_digits=20, decimal_places=5)
+    latitude = models.DecimalField(max_digits=20, decimal_places=5)
+    altitude = models.DecimalField(max_digits=20, decimal_places=5,
+        blank=True, null=True)

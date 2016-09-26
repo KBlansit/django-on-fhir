@@ -39,15 +39,17 @@ class Patient(models.Model):
     ]
 
     active = models.BooleanField(blank=True)
-    gender = models.CharField(choices=GENDER_CHOICES, blank=False)
+    gender = models.CharField(choices=GENDER_CHOICES, blank=False, null=True,
+        max_length=100)
     birthDate = models.DateTimeField(blank=True)
-    deceasedType = models.CharField(choices=DECEASED_TYPE, blank=True)
-    deceasedBoolean = models.BooleanField(blank=True)
+    deceasedType = models.CharField(choices=DECEASED_TYPE, blank=True,
+        null=True, max_length=100)
+    deceasedBoolean = models.NullBooleanField(blank=True)
     deceasedDateTime = models.DateTimeField(blank=True)
-    martialStatus = models.CharField(blank=True)
+    martialStatus = models.CharField(blank=True, null=True, max_length=100)
     multipleBirth = models.BooleanField()
-    multipleBirthType = models.CharField(blank=True)
-    multipleBirthBoolean = models.BooleanField(blank=True)
+    multipleBirthType = models.CharField(blank=True, null=True, max_length=100)
+    multipleBirthBoolean = models.NullBooleanField(blank=True)
     multipleBirthInteger = models.IntegerField(blank=True)
     # careProvider = models.CharField(blank=True)
     managingOrganization = models.ForeignKey(Organization, blank=True)
@@ -81,7 +83,8 @@ class PatientContact(models.Model):
     name = models.ForeignKey(HumanName, blank=True)
     telecom = models.ForeignKey(ContactPoint, blank=True)
     address = models.ForeignKey(Address, blank=True)
-    gender = models.CharField(choices = GENDER_CHOICES, blank=True)
+    gender = models.CharField(choices = GENDER_CHOICES, blank=True, null=True,
+        max_length=100)
     organization = models.ForeignKey(Organization, blank=True)
     period = models.ForeignKey(Period, blank=True)
 
@@ -91,22 +94,36 @@ class ContactRelationship(CodeableConcept):
 class ContactTelecom(ContactPoint):
     patient = models.ManyToManyField(PatientContact)
 
+class AnimalSpecies(CodeableConcept):
+    pass
+
+class AnimalBreed(CodeableConcept):
+    pass
+
 class PatientAnimal(models.Model):
     patient = models.ForeignKey(Patient)
-    species = models.ForeignKey(CodeableConcept)
-    breed = models.ForeignKey(CodeableConcept, blank=True)
-    genderStatus = models.ForeignKey(CodeableConcept, blank=True)
+    species = models.ManyToManyField(AnimalSpecies)
+    breed = models.ManyToManyField(AnimalBreed, blank=True, related_name='breed')
+    genderStatus = models.ForeignKey(CodeableConcept, blank=True,
+        related_name='gender_status')
+
+class PatientCommunicationLanguage(CodeableConcept):
+    pass
 
 class PatientCommunication(models.Model):
     patient = models.ManyToManyField(Patient)
-    language = models.ForeignKey(CodeableConcept)
+    language = models.ManyToManyField(PatientCommunicationLanguage)
     preferred = models.BooleanField(blank=True)
 
 class PatientLink(models.Model):
     # TODO: LinkType required for PatientLink: type
 
-    TYPE_CHOICES = ['replace', 'refer', 'seealso']
+    TYPE_CHOICES = [
+        ('replace', 'replace'),
+        ('refer', 'refer'),
+        ('seealso', 'seealso'),
+    ]
 
-    patient = models.ManyToManyField(Patient)
-    other = models.ForeignKey(Patient)
-    type = models.CharField(choices=TYPE_CHOICES)
+    patient = models.ManyToManyField(Patient, 'primary_patient')
+    other = models.ForeignKey(Patient, related_name='other_patient')
+    type = models.CharField(choices=TYPE_CHOICES, max_length=100)

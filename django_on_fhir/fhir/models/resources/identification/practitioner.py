@@ -17,9 +17,14 @@ from healthcare_service import HealthcareService
 class Practitioner(models.Model):
     # TODO: AdministrativeGender required for gender
 
-    GENDER_CHOICES = ['male', 'female', 'other', 'unknown']
+    GENDER_CHOICES = [
+        ('male', 'male'),
+        ('female', 'female'),
+        ('other', 'other'),
+        ('unknown', 'unknown'),
+    ]
 
-    active = models.BooleanField(blank=True)
+    active = models.NullBooleanField(blank=True)
     name = models.ForeignKey(HumanName, blank=True)
     birthDate = models.DateTimeField(blank=True)
 
@@ -35,11 +40,17 @@ class PractitionerAddress(Address):
 class PractitionerPhoto(Attachment):
     practitioner = models.ManyToManyField(Practitioner)
 
+class PractitionerRoleType(CodeableConcept):
+    pass
+
+class PractionRoleSpecialty(CodeableConcept):
+    pass
+
 class PractitionerRole(models.Model):
     practitioner = models.ManyToManyField(Practitioner)
     managingOrganization = models.ForeignKey(Organization, blank=True)
-    role = models.ForeignKey(CodeableConcept, blank=True)
-    specialty = models.ManyToManyField(CodeableConcept, blank=True)
+    role = models.ManyToManyField(PractitionerRoleType, blank=True)
+    specialty = models.ManyToManyField(PractionRoleSpecialty, blank=True)
     period = models.ForeignKey(Period, blank=True)
 
 class PractitionerRoleLocation(models.Model):
@@ -50,10 +61,13 @@ class PractitionerRoleHealthcareService(models.Model):
     practitionerRole = models.ManyToManyField(PractitionerRole)
     location = models.ForeignKey(HealthcareService)
 
+class PractitionerQualificationCode(CodeableConcept):
+    pass
+
 class PractitionerQualification(models.Model):
     practitioner = models.ManyToManyField(Practitioner)
     identifier = models.ManyToManyField(Identifier, blank=True)
-    code = models.ForeignKey(CodeableConcept, blank=True)
+    code = models.ManyToManyField(PractitionerQualificationCode, blank=True)
     period = models.ForeignKey(Period, blank=True)
     issuer = models.ForeignKey(Organization)
 

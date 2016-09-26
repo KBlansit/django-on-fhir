@@ -13,24 +13,34 @@ from fhir.models.primitive_types.string import FhirString
 from organization import Organization
 from location import Location
 
+class HealthcareServiceServiceCategory(ContactPoint):
+    pass
+
+class HealthcareServiceEligibility(CodeableConcept):
+    pass
+
 class HealthcareService(models.Model):
     providedBy = models.ForeignKey(Organization, blank=True)
-    serviceCategory = models.ForeignKey(CodeableConcept, blank=True)
+    serviceCategory = models.ManyToManyField(HealthcareServiceServiceCategory,
+        blank=True)
     location = models.ForeignKey(Location)
-    serviceName = models.CharField(blank=True)
-    comment = models.CharField(blank=True)
-    extraDetails = models.CharField(blank=True)
-    eligibility = models.ForeignKey(CodeableConcept, blank=True)
-    eligibilityNote = models.CharField(blank=True)
-    publicKey = models.CharField(blank=True)
-    appointmentRequired = models.BooleanField(blank=True)
+    serviceName = models.CharField(blank=True, null=True, max_length=100)
+    comment = models.CharField(blank=True, null=True, max_length=100)
+    extraDetails = models.CharField(blank=True, null=True, max_length=100)
+    eligibility = models.ManyToManyField(HealthcareServiceEligibility, blank=True)
+    eligibilityNote = models.CharField(blank=True, null=True, max_length=100)
+    publicKey = models.CharField(blank=True, null=True, max_length=100)
+    appointmentRequired = models.NullBooleanField(blank=True)
 
 class HealthcareServiceIdentifier(Identifier):
     healthcareService = models.ManyToManyField(HealthcareService)
 
+class HealthcareServiceType(CodeableConcept):
+    pass
+
 class HealthcareServiceServiceType(models.Model):
     healthcareService = models.ManyToManyField(HealthcareService)
-    type = models.ForeignKey(CodeableConcept)
+    type = models.ForeignKey(HealthcareServiceType)
 
 class ServiceTypeSpecialty(CodeableConcept):
     healthcareServiceServiceType = models.ManyToManyField(HealthcareServiceServiceType)
@@ -41,7 +51,7 @@ class HealthcareServicePhoto(Attachment):
 class HealthcareServiceTelecom(ContactPoint):
     healthcareService = models.ManyToManyField(HealthcareService)
 
-class healthcareServiceCoverageArea(models.Model):
+class HealthcareServiceCoverageArea(models.Model):
     healthcareService = models.ManyToManyField(HealthcareService)
     location = models.ForeignKey(Location)
 
@@ -66,11 +76,19 @@ class HealthcareServiceAvailableTime(models.Model):
 class AvailableTimeDaysOfWeek(models.Model):
     # TODO: daysOfWeek requires DaysOfWeek
 
-    DAY_CHOICES = ['mon', 'tues', 'wed', 'thu', 'fri', 'sat', 'sun']
+    DAY_CHOICES = [
+        ('mon', 'mon'),
+        ('tue', 'tue'),
+        ('wed', 'wed'),
+        ('thu', 'thu'),
+        ('fri', 'fri'),
+        ('sat', 'sat'),
+        ('sun', 'sun'),
+    ]
 
     availableTime = models.ManyToManyField(HealthcareServiceAvailableTime)
-    dayOfWeek = models.CharField(choices = DAY_CHOICES)
+    dayOfWeek = models.CharField(choices = DAY_CHOICES, max_length=100)
 
 class HealthcareServiceNotAvailable(models.Model):
-    description = models.CharField()
+    description = models.CharField(max_length=1000)
     during = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE)

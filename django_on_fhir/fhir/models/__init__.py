@@ -27,29 +27,34 @@ from complex_types.timing import Timing, RepeatTiming
 
 
 # identification_resources
-from resources.identification.group import Group, GroupMember, GroupIdentifier,\
-    GroupCharacteristic
-from resources.identification.healthcare_service import HealthcareService,\
-    HealthcareServiceIdentifier, HealthcareServiceServiceType, ServiceTypeSpecialty,\
-    HealthcareServicePhoto, HealthcareServiceTelecom, healthcareServiceCoverageArea,\
+from resources.identification.group import GroupCode, Group, GroupIdentifier,\
+    GroupCharacteristicCode, GroupCharacteristicValue, GroupCharacteristic,\
+    GroupMember
+from resources.identification.healthcare_service import \
+    HealthcareServiceServiceCategory, HealthcareServiceEligibility,\
+    HealthcareService, HealthcareServiceIdentifier, HealthcareServiceType,\
+    HealthcareServiceServiceType, ServiceTypeSpecialty, HealthcareServicePhoto,\
+    HealthcareServiceType, HealthcareServiceCoverageArea,\
     HealthcareServiceServiceProvisionCode, HealthcareServiceProgramName,\
     HealthcareServiceCharacteristic, HealthcareServiceReferralMethod,\
     HealthcareServiceAvailableTime, AvailableTimeDaysOfWeek,\
     HealthcareServiceNotAvailable
-from resources.identification.location import Location, LocationIdentifier,\
-    LocationTelecom, LocationPosition
-from resources.identification.organization import Organization,\
-    OrganizationIdentifier, OrganizationAddress, OrganizationContact,\
-    OrganizationContactTelecom
+from resources.identification.location import LocationType, Location,\
+    LocationIdentifier, LocationTelecom, LocationPosition
+from resources.identification.organization import OrganizationType, Organization,\
+    OrganizationIdentifier, OrganizationAddress, OrganizationContactPurpose,\
+    OrganizationContact, OrganizationContactTelecom
 from resources.identification.patient import Patient, PatientIdentifier,\
     PatientName, PatientTelecom, PatientAddress, PatientPhoto, PatientContact,\
-    ContactRelationship, ContactTelecom, PatientAnimal, PatientCommunication,\
-    PatientLink
+    ContactRelationship, ContactTelecom, AnimalSpecies, AnimalBreed,\
+    PatientAnimal, PatientCommunicationLanguage, PatientCommunication, PatientLink
 from resources.identification.practitioner import Practitioner,\
     PractitionerIdentifier, PractitionerTelecom, PractitionerAddress,\
-    PractitionerPhoto, PractitionerRole, PractitionerRoleLocation,\
-    PractitionerRoleHealthcareService, PractitionerQualification,\
-    PractitionerQualificationIdentifier, PractitionerCommunication
-from resources.identification.related_person import RelatedPerson,\
-    RelatedPersonIdentifier, RelatedPersonTelecom, RelatedPersonAddress,\
-    RelatedPersonPhoto
+    PractitionerPhoto, PractitionerRoleType, PractionRoleSpecialty,\
+    PractitionerRole, PractitionerRoleLocation,\
+    PractitionerRoleHealthcareService, PractitionerQualificationCode,\
+    PractitionerRole, PractitionerQualificationIdentifier,\
+    PractitionerCommunication
+from resources.identification.related_person import RelatedPersonRelationship,\
+    RelatedPerson, RelatedPersonIdentifier, RelatedPersonTelecom,\
+    RelatedPersonAddress, RelatedPersonPhoto

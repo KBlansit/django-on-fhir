@@ -7,12 +7,14 @@ from fhir.models.complex_types.codeable_concept import CodeableConcept
 from fhir.models.complex_types.contact_point import ContactPoint
 from fhir.models.complex_types.address import Address
 from fhir.models.complex_types.human_name import HumanName
-from fhir.models.complex_types.contact_point import ContactPoint
+
+class OrganizationType(CodeableConcept):
+    pass
 
 class Organization(models.Model):
     active = models.BooleanField(blank=True)
-    type = models.ForeignKey(CodeableConcept, blank=True)
-    name = models.CharField(blank=True)
+    type = models.ForeignKey(OrganizationType, blank=True)
+    name = models.CharField(blank=True, null=True, max_length=100)
     partOf = models.ForeignKey('self', blank=True)
 
 class OrganizationIdentifier(Identifier):
@@ -21,10 +23,12 @@ class OrganizationIdentifier(Identifier):
 class OrganizationAddress(Address):
     organization = models.ManyToManyField(Organization)
 
+class OrganizationContactPurpose(CodeableConcept):
+    pass
+
 class OrganizationContact(models.Model):
     organization = models.ManyToManyField(Organization)
-    provider = models.ManyToManyField(Organization)
-    purpose = models.ForeignKey(CodeableConcept, blank=True)
+    purpose = models.ManyToManyField(CodeableConcept, blank=True)
     name = models.ForeignKey(HumanName, blank=True)
     address = models.ForeignKey(Address, blank=True)
 

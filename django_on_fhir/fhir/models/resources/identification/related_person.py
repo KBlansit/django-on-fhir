@@ -12,16 +12,25 @@ from fhir.models.complex_types.period import Period
 
 from patient import Patient
 
+class RelatedPersonRelationship(CodeableConcept):
+    pass
+
 class RelatedPerson(models.Model):
     # TODO: need to create table of relationships for relationship
     # TODO: need to create table of AdministrativeGender for gender
 
-    GENDER_CHOICES = ['male', 'female', 'other', 'unknown']
+    GENDER_CHOICES = [
+        ('male', 'male'),
+        ('female', 'female'),
+        ('other', 'other'),
+        ('unknown', 'unknown'),
+    ]
 
     patient = models.ForeignKey(Patient)
-    relationship = models.ForeignKey(CodeableConcept)
+    relationship = models.ManyToManyField(RelatedPersonRelationship)
     name = models.ForeignKey(HumanName, blank=True)
-    gender = models.CharField(choices=GENDER_CHOICES, blank=True)
+    gender = models.CharField(choices=GENDER_CHOICES, blank=True, null=True,
+        max_length=100)
     birthDate = models.DateTimeField(blank=True)
     period = models.ForeignKey(Period, on_delete=models.CASCADE)
 
