@@ -2,13 +2,13 @@ from __future__ import unicode_literals
 from django.db import models
 
 # import additional models
-from ../../complex_types/identifier import Identifier
-from ../../complex_types/codeable_concept import CodeableConcept
-from ../../complex_types/attachment import Attachment
-from ../../complex_types/contact_point import ContactPoint
-from ../../complex_types/period import Period
+from fhir.models.complex_types.identifier import Identifier
+from fhir.models.complex_types.codeable_concept import CodeableConcept
+from fhir.models.complex_types.attachment import Attachment
+from fhir.models.complex_types.contact_point import ContactPoint
+from fhir.models.complex_types.period import Period
 
-from ../../primitive_types/string import FhirString
+from fhir.models.primitive_types.string import FhirString
 
 from organization import Organization
 from location import Location
@@ -21,21 +21,19 @@ class HealthcareService(models.Model):
     comment = models.CharField(blank=True)
     extraDetails = models.CharField(blank=True)
     eligibility = models.ForeignKey(CodeableConcept, blank=True)
-    eligibilityNote = moddels.CharField(blank=True)
+    eligibilityNote = models.CharField(blank=True)
     publicKey = models.CharField(blank=True)
     appointmentRequired = models.BooleanField(blank=True)
 
 class HealthcareServiceIdentifier(Identifier):
     healthcareService = models.ManyToManyField(HealthcareService)
 
-class HealthcareServiceServiceType(model.Model):
+class HealthcareServiceServiceType(models.Model):
     healthcareService = models.ManyToManyField(HealthcareService)
     type = models.ForeignKey(CodeableConcept)
-    specialty = models.ManyToManyField(ServiceTypeSpecialty,
-        blank=True, on_delete=moels.CASCADE)
 
 class ServiceTypeSpecialty(CodeableConcept):
-    healthcareService = models.ManyToManyField(HealthcareService)
+    healthcareServiceServiceType = models.ManyToManyField(HealthcareServiceServiceType)
 
 class HealthcareServicePhoto(Attachment):
     healthcareService = models.ManyToManyField(HealthcareService)
@@ -65,7 +63,7 @@ class HealthcareServiceAvailableTime(models.Model):
     availableStartTime = models.TimeField(blank=True)
     availableEndTime = models.TimeField(blank=True)
 
-class AvailableTimeDaysOfWeek(model.Model):
+class AvailableTimeDaysOfWeek(models.Model):
     # TODO: daysOfWeek requires DaysOfWeek
 
     DAY_CHOICES = ['mon', 'tues', 'wed', 'thu', 'fri', 'sat', 'sun']

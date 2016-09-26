@@ -2,15 +2,17 @@ from __future__ import unicode_literals
 from django.db import models
 
 # import additional models
-from ../../complex_types/identifier import Identifier
-from ../../complex_types/human_name import HumanName
-from ../../complex_types/contact_point import ContactPoint
-from ../../complex_types/address import Address
-from ../../complex_types/attachment import Attachment
-from ../../complex_types/codeable_concept import CodeableConcept
-from ../../complex_types/period import Period
+from fhir.models.complex_types.identifier import Identifier
+from fhir.models.complex_types.human_name import HumanName
+from fhir.models.complex_types.contact_point import ContactPoint
+from fhir.models.complex_types.address import Address
+from fhir.models.complex_types.attachment import Attachment
+from fhir.models.complex_types.codeable_concept import CodeableConcept
+from fhir.models.complex_types.period import Period
 
 from organization import Organization
+from location import Location
+from healthcare_service import HealthcareService
 
 class Practitioner(models.Model):
     # TODO: AdministrativeGender required for gender
@@ -22,16 +24,16 @@ class Practitioner(models.Model):
     birthDate = models.DateTimeField(blank=True)
 
 class PractitionerIdentifier(Identifier):
-    practitioner = ManyToManyField(Practitioner)
+    practitioner = models.ManyToManyField(Practitioner)
 
 class PractitionerTelecom(ContactPoint):
-    practitioner = ManyToManyField(Practitioner)
+    practitioner = models.ManyToManyField(Practitioner)
 
 class PractitionerAddress(Address):
-    practitioner = ManyToManyField(Practitioner)
+    practitioner = models.ManyToManyField(Practitioner)
 
 class PractitionerPhoto(Attachment):
-    practitioner = ManyToManyField(Practitioner)
+    practitioner = models.ManyToManyField(Practitioner)
 
 class PractitionerRole(models.Model):
     practitioner = models.ManyToManyField(Practitioner)
@@ -49,7 +51,7 @@ class PractitionerRoleHealthcareService(models.Model):
     location = models.ForeignKey(HealthcareService)
 
 class PractitionerQualification(models.Model):
-    provider = models.ManyToManyField(Provider)
+    practitioner = models.ManyToManyField(Practitioner)
     identifier = models.ManyToManyField(Identifier, blank=True)
     code = models.ForeignKey(CodeableConcept, blank=True)
     period = models.ForeignKey(Period, blank=True)
@@ -61,4 +63,4 @@ class PractitionerQualificationIdentifier(Identifier):
 class PractitionerCommunication(CodeableConcept):
     # TODO: add in language suppoert
 
-    provider = ManyToManyField(Provider)
+    practitioner = models.ManyToManyField(Practitioner)

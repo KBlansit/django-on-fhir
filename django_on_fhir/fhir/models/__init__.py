@@ -1,6 +1,6 @@
 # primitive_types
-from primiative_types.code import FhirCode
-from primiative_types.string import FhirString
+from primitive_types.code import FhirCode
+from primitive_types.string import FhirString
 
 # complex_types
 from complex_types.address import Address, AddressFhirString
@@ -41,14 +41,15 @@ from resources.identification.location import Location, LocationIdentifier,\
 from resources.identification.organization import Organization,\
     OrganizationIdentifier, OrganizationAddress, OrganizationContact,\
     OrganizationContactTelecom
-from resources.patient import Patient, PatientIdentifier, PatientName,\
-    PatientTelecom, PatientAddress, PatientPhoto, PatientContact,\
+from resources.identification.patient import Patient, PatientIdentifier,\
+    PatientName, PatientTelecom, PatientAddress, PatientPhoto, PatientContact,\
     ContactRelationship, ContactTelecom, PatientAnimal, PatientCommunication,\
     PatientLink
-from resources.practitioner import Practitioner, PractitionerIdentifier,\
-    PractitionerTelecom, PractitionerAddress, PractitionerPhoto,\
-    PractitionerRole, PractitionerRoleLocation, PractitionerRoleHealthcareService,\
-    PractitionerQualification, PractitionerQualificationIdentifier,\
-    PractitionerCommunication
-from resources.related_person import RelatedPerson, RelatedPersonIdentifier,\
-    RelatedPersonTelecom, RelatedPersonAddress, RelatedPersonPhoto
+from resources.identification.practitioner import Practitioner,\
+    PractitionerIdentifier, PractitionerTelecom, PractitionerAddress,\
+    PractitionerPhoto, PractitionerRole, PractitionerRoleLocation,\
+    PractitionerRoleHealthcareService, PractitionerQualification,\
+    PractitionerQualificationIdentifier, PractitionerCommunication
+from resources.identification.related_person import RelatedPerson,\
+    RelatedPersonIdentifier, RelatedPersonTelecom, RelatedPersonAddress,\
+    RelatedPersonPhoto

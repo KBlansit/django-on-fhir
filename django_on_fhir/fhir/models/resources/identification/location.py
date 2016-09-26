@@ -2,10 +2,10 @@ from __future__ import unicode_literals
 from django.db import models
 
 # import additional models
-from ../../complex_types/identifier import Identifier
-from ../../complex_types/codeable_concept import CodeableConcept
-from ../../complex_types/contact_point import ContactPoint
-from ../../complex_types/address import Address
+from fhir.models.complex_types.identifier import Identifier
+from fhir.models.complex_types.codeable_concept import CodeableConcept
+from fhir.models.complex_types.contact_point import ContactPoint
+from fhir.models.complex_types.address import Address
 
 from organization import Organization
 

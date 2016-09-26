@@ -2,12 +2,12 @@ from __future__ import unicode_literals
 from django.db import models
 
 # import additional models
-from ../../complex_types/identifier import Identifier
-from ../../complex_types/codeable_concept import CodeableConcept
-from ../../complex_types/contact_point import ContactPoint
-from ../../complex_types/address import Address
-from ../../complex_types/human_name import HumanName
-from ../../complex_types/telecom import Telecom
+from fhir.models.complex_types.identifier import Identifier
+from fhir.models.complex_types.codeable_concept import CodeableConcept
+from fhir.models.complex_types.contact_point import ContactPoint
+from fhir.models.complex_types.address import Address
+from fhir.models.complex_types.human_name import HumanName
+from fhir.models.complex_types.contact_point import ContactPoint
 
 class Organization(models.Model):
     active = models.BooleanField(blank=True)
@@ -16,17 +16,17 @@ class Organization(models.Model):
     partOf = models.ForeignKey('self', blank=True)
 
 class OrganizationIdentifier(Identifier):
-    organization = ManyToManyField(Organization)
+    organization = models.ManyToManyField(Organization)
 
 class OrganizationAddress(Address):
-    organization = ManyToManyField(Organization)
+    organization = models.ManyToManyField(Organization)
 
 class OrganizationContact(models.Model):
-    organization = ManyToManyField(Organization)
-    provider = ManyToManyField(Organization)
+    organization = models.ManyToManyField(Organization)
+    provider = models.ManyToManyField(Organization)
     purpose = models.ForeignKey(CodeableConcept, blank=True)
     name = models.ForeignKey(HumanName, blank=True)
     address = models.ForeignKey(Address, blank=True)
 
-class OrganizationContactTelecom(ContactPoint)
-    organizationContact = ManyToManyField(OrganizationContact)
+class OrganizationContactTelecom(ContactPoint):
+    organizationContact = models.ManyToManyField(OrganizationContact)

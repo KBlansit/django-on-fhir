@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 # import additional models
-from fhir.models.primiative_types.string import FhirString
+from fhir.models.primitive_types.string import FhirString
 from period import Period
 
 class HumanName(models.Model):
