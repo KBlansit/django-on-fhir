@@ -21,8 +21,10 @@ class Address(models.Model):
         ('both', 'both'),
     ]
 
-    use = models.CharField(choices=USE_CHOICES, blank=True, null=True, max_length=100)
-    type = models.CharField(choices=TYPE_CHOICES, blank=True, null=True, max_length=100)
+    use = models.CharField(choices=USE_CHOICES, blank=True, null=True,
+        max_length=100)
+    type = models.CharField(choices=TYPE_CHOICES, blank=True, null=True,
+        max_length=100)
     text = models.TextField(blank=True, null=True)
     city = models.CharField(blank=True, null=True, max_length=100)
     district = models.CharField(blank=True, null=True, max_length=100)
@@ -31,5 +33,13 @@ class Address(models.Model):
     country = models.CharField(blank=True, null=True, max_length=100)
     period = models.ForeignKey(Period, blank=True, null=True)
 
+    # __unicode__ on Python 2
+    def __str__(self):
+        return self.text
+
 class AddressFhirString(FhirString):
     address = models.ManyToManyField(Address)
+
+    # __unicode__ on Python 2
+    def __str__(self):
+        return self.string
