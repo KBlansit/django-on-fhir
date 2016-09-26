@@ -58,7 +58,7 @@ class PractitionerQualification(models.Model):
 class PractitionerQualificationIdentifier(Identifier):
     PractitionerQualification = models.ManyToManyField(PractitionerQualification)
 
-class ProviderCommunication(CodeableConcept):
+class PractitionerCommunication(CodeableConcept):
     # TODO: add in language suppoert
 
     provider = ManyToManyField(Provider)
