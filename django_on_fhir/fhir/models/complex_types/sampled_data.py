@@ -14,8 +14,11 @@ class SampledData(models.Model):
 
     origin = models.ForeignKey(SimpleQuantity, on_delete=models.CASCADE)
     period = models.DecimalField(max_digits=20, decimal_places=5)
-    factor = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
-    lowerLimit = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
-    upperLimit = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
+    factor = models.DecimalField(blank=True, null=True, max_digits=20,
+        decimal_places=5)
+    lowerLimit = models.DecimalField(blank=True, null=True, max_digits=20,
+        decimal_places=5)
+    upperLimit = models.DecimalField(blank=True, null=True, max_digits=20,
+        decimal_places=5)
     dimensions = models.PositiveIntegerField()
     data = models.CharField(max_length=100)

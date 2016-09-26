@@ -21,15 +21,15 @@ class Address(models.Model):
         ('both', 'both'),
     ]
 
-    use = models.CharField(choices=USE_CHOICES, blank=True, max_length=100)
-    type = models.CharField(choices=TYPE_CHOICES, blank=True, max_length=100)
-    text = models.TextField(blank=True)
-    city = models.CharField(blank=True, max_length=100)
-    district = models.CharField(blank=True, max_length=100)
-    state = models.CharField(blank=True, max_length=100)
-    postalCode = models.CharField(blank=True, max_length=100)
-    country = models.CharField(blank=True, max_length=100)
-    period = models.ForeignKey(Period, blank=True)
+    use = models.CharField(choices=USE_CHOICES, blank=True, null=True, max_length=100)
+    type = models.CharField(choices=TYPE_CHOICES, blank=True, null=True, max_length=100)
+    text = models.TextField(blank=True, null=True)
+    city = models.CharField(blank=True, null=True, max_length=100)
+    district = models.CharField(blank=True, null=True, max_length=100)
+    state = models.CharField(blank=True, null=True, max_length=100)
+    postalCode = models.CharField(blank=True, null=True, max_length=100)
+    country = models.CharField(blank=True, null=True, max_length=100)
+    period = models.ForeignKey(Period, blank=True, null=True)
 
 class AddressFhirString(FhirString):
     address = models.ManyToManyField(Address)

@@ -18,9 +18,11 @@ class HumanName(models.Model):
         ('maiden', 'maiden'),
     ]
 
-    use = models.CharField(choices=USE_CHOICES, blank=True, max_length=1000)
-    text = models.CharField(blank=True, max_length=1000)
-    period = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE)
+    use = models.CharField(choices=USE_CHOICES, blank=True, null=True,
+        max_length=1000)
+    text = models.CharField(blank=True, null=True, max_length=1000)
+    period = models.ForeignKey(Period, blank=True, null=True,
+        on_delete=models.CASCADE)
 
 class HumanNameFamily(FhirString):
     HumanName = models.ManyToManyField(HumanName)

@@ -20,8 +20,8 @@ class Timing(models.Model):
         ('PM', 'PM'),
     ]
 
-    event = models.DateTimeField(blank=True)
-    code = models.CharField(choices=CODE_CHOICES, blank=True, max_length=100)
+    event = models.DateTimeField(blank=True, null=True)
+    code = models.CharField(choices=CODE_CHOICES, blank=True, null=True, max_length=100)
 
 class RepeatTiming(models.Model):
     # TODO: better way to model which type of bound?
@@ -59,20 +59,27 @@ class RepeatTiming(models.Model):
     ]
 
     timing = models.ManyToManyField(Timing)
-    boundsType = models.CharField(choices=BOUNDS_TYPE_CHOICES, blank=True,
+    boundsType = models.CharField(choices=BOUNDS_TYPE_CHOICES, blank=True, null=True,
         max_length=100)
-    boundQuantity = models.ForeignKey(Quantity, blank=True, on_delete=models.CASCADE)
-    boundRange = models.ForeignKey(Range, blank=True, on_delete=models.CASCADE)
-    boundPeriod = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE)
-    count = models.IntegerField(blank=True)
-    duration = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
-    durationMax = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
-    durationUnits = models.CharField(choices=DURATION_UNITS_CHOICES, blank=True,
-        max_length=100)
-    frequency = models.IntegerField(blank=True)
-    frequencyMax = models.IntegerField(blank=True)
-    period = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
-    periodMax = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
-    periodUnits = models.CharField(choices=PERIOD_UNITS_CHOICES, blank=True,
-        max_length=100)
-    when = models.CharField(blank=True, max_length=100)
+    boundQuantity = models.ForeignKey(Quantity, blank=True, null=True,
+        on_delete=models.CASCADE)
+    boundRange = models.ForeignKey(Range, blank=True, null=True,
+        on_delete=models.CASCADE)
+    boundPeriod = models.ForeignKey(Period, blank=True, null=True,
+        on_delete=models.CASCADE)
+    count = models.IntegerField(blank=True, null=True)
+    duration = models.DecimalField(blank=True, null=True,
+        max_digits=20, decimal_places=5)
+    durationMax = models.DecimalField(blank=True, null=True,
+        max_digits=20, decimal_places=5)
+    durationUnits = models.CharField(choices=DURATION_UNITS_CHOICES,
+        blank=True, null=True, max_length=100)
+    frequency = models.IntegerField(blank=True, null=True)
+    frequencyMax = models.IntegerField(blank=True, null=True)
+    period = models.DecimalField(blank=True, null=True,
+        max_digits=20, decimal_places=5)
+    periodMax = models.DecimalField(blank=True, null=True,
+        max_digits=20, decimal_places=5)
+    periodUnits = models.CharField(choices=PERIOD_UNITS_CHOICES,
+    blank=True, null=True, max_length=100)
+    when = models.CharField(blank=True, null=True, max_length=100)

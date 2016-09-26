@@ -22,10 +22,12 @@ from complex_types.timing import Timing, RepeatTiming
 class AddressTestCase(TestCase):
     def setUp(self):
         Address.objects.create()
-    def test_can_add_multiple_address_lines(self):
-    def test_use_choices(self):
-    def test_type_choices(self):
 
+    def test_can_add_multiple_address_lines(self):
+        
+    def test_use_choices(self):
+
+    def test_type_choices(self):
 
 class AnnotationTestCase(TestCase):
 

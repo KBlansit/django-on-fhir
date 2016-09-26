@@ -23,8 +23,10 @@ class ContactPoint(models.Model):
         ('old', 'old'),
     ]
 
-    system = models.CharField(choices=SYSTEM_CHOICES, blank=True, max_length=100)
-    value = models.CharField(blank=True, max_length=100)
-    use = models.CharField(blank=True, max_length=100)
-    rank = models.PositiveIntegerField(blank=True)
-    period = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE)
+    system = models.CharField(choices=SYSTEM_CHOICES, blank=True, null=True,
+        max_length=100)
+    value = models.CharField(blank=True, null=True, max_length=100)
+    use = models.CharField(blank=True, null=True, max_length=100)
+    rank = models.PositiveIntegerField(blank=True, null=True)
+    period = models.ForeignKey(Period, blank=True, null=True,
+        on_delete=models.CASCADE)

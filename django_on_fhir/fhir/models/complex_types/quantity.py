@@ -12,8 +12,10 @@ class Quantity(models.Model):
         ('>', 'greater than'),
     ]
 
-    value = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
-    comparator = models.CharField(choices=COMPARATOR, blank=True, max_length=100)
-    unit = models.CharField(blank=True, max_length=100)
-    system = models.URLField(blank=True)
-    code = models.CharField(blank=True, max_length=100)
+    value = models.DecimalField(blank=True, null=True, max_digits=20,
+        decimal_places=5)
+    comparator = models.CharField(choices=COMPARATOR, blank=True, null=True,
+        max_length=100)
+    unit = models.CharField(blank=True, null=True, max_length=100)
+    system = models.URLField(blank=True, null=True)
+    code = models.CharField(blank=True, null=True, max_length=100)
