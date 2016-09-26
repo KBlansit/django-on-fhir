@@ -4,5 +4,5 @@ from django.db import models
 class Period(models.Model):
     # TODO: verify end date is larger than start date
 
-    start = models.DateTimeField(blank=True)
-    end = models.DateTimeField(blank=True)
+    start = models.DateTimeField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)

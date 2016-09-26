@@ -6,14 +6,16 @@ class Quantity(models.Model):
     # TODO: QuantityComparator required for comparator
 
     COMPARATOR = [
-    ('<', 'less than'),
-    ('<=', 'less than or equal to'),
-    ('>=', 'greater than or equal to'),
-    ('>', 'greater than'),
+        ('<', 'less than'),
+        ('<=', 'less than or equal to'),
+        ('>=', 'greater than or equal to'),
+        ('>', 'greater than'),
     ]
 
-    value = models.DecimalField(blank=True, max_digits=20, decimal_places=5)
-    comparator = models.CharField(choices=COMPARATOR, blank=True, max_length=100)
-    unit = models.CharField(blank=True, max_length=100)
-    system = models.URLField(blank=True)
-    code = models.CharField(blank=True, max_length=100)
+    value = models.DecimalField(blank=True, null=True, max_digits=20,
+        decimal_places=5)
+    comparator = models.CharField(choices=COMPARATOR, blank=True, null=True,
+        max_length=100)
+    unit = models.CharField(blank=True, null=True, max_length=100)
+    system = models.URLField(blank=True, null=True)
+    code = models.CharField(blank=True, null=True, max_length=100)

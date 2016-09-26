@@ -1,46 +1,155 @@
 from django.test import TestCase
 
+# complex_types
+from fhir.models.complex_types.address import Address, AddressFhirString
+from fhir.models.complex_types.annotation import Annotation
+from fhir.models.complex_types.attachment import Attachment
+from fhir.models.complex_types.codeable_concept import CodeableConcept, \
+    CodeableConceptCoding
+from fhir.models.complex_types.coding import Coding
+from fhir.models.complex_types.contact_point import ContactPoint
+from fhir.models.complex_types.human_name import HumanName, HumanNameFamily, \
+    HumanNameGiven, HumanNamePrefix, HumanNameSuffix
+from fhir.models.complex_types.identifier import Identifier
+from fhir.models.complex_types.period import Period
+from fhir.models.complex_types.quantity import Quantity
+from fhir.models.complex_types.range import Range
+from fhir.models.complex_types.ratio import Ratio
+from fhir.models.complex_types.sampled_data import SampledData
+from fhir.models.complex_types.signature import Signature
+from fhir.models.complex_types.simple_quantity import SimpleQuantity
+from fhir.models.complex_types.timing import Timing, RepeatTiming
+
 class AddressTestCase(TestCase):
-    from fhir.models.complex_types.address import Address
+    def setUp(self):
+        self.test_address = Address()
+        self.test_address.save()
+
+    def test_can_add_multiple_address_lines(self):
+
+        test_lst = [
+            "White House",
+            "Oval Office",
+            "1600 Pennsylvania Ave NW",
+            "District of Columbia",
+            "20500",
+        ]
+
+        # make list of AddressFhirString objects
+        obj_lst = [AddressFhirString(string=x) for x in test_lst]
+        [x.save() for x in obj_lst]
+        [x.address.add(self.test_address) for x in obj_lst]
+
+        for x in Address.objects.get(pk=1).addressfhirstring_set.all():
+            self.assertIn(str(x.string), test_lst)
 
 class AnnotationTestCase(TestCase):
-    from complex_types.annotation import Annotation
+    pass
 
 class AttachmentTestCase(TestCase):
-    from fhir.models.complex_types.attachment import Attachment
+    pass
 
 class CodeableConceptTestCase(TestCase):
-    from fhir.models.complex_types.codeable_concept import CodeableConcept
+    pass
 
 class CodingTestCase(TestCase):
-    from fhir.models.complex_types.coding import Coding
+    pass
+
+class ContactPointTestCase(TestCase):
+    pass
 
 class HumanNameTestCase(TestCase):
-    from fhir.models.complex_types.human_name import HumanName
+    def setUp(self):
+        self.test_human_name = HumanName()
+        self.test_human_name.save()
+
+    def test_can_add_multiple_family_names(self):
+
+        test_lst = [
+            "Karl",
+            "Frank",
+        ]
+
+        # make list of HumanNameFamily objects
+        obj_lst = [HumanNameFamily(string=x) for x in test_lst]
+        [x.save() for x in obj_lst]
+        [x.humanName.add(self.test_human_name) for x in obj_lst]
+
+        for x in HumanName.objects.get(pk=1).humannamefamily_set.all():
+            self.assertIn(str(x.string), test_lst)
+
+    def test_can_add_multiple_given_names(self):
+
+        test_lst = [
+            "Sue",
+            "Scott",
+        ]
+
+        # make list of HumanNameGiven objects
+        obj_lst = [HumanNameGiven(string=x) for x in test_lst]
+        [x.save() for x in obj_lst]
+        [x.humanName.add(self.test_human_name) for x in obj_lst]
+
+        for x in HumanName.objects.get(pk=1).humannamegiven_set.all():
+            self.assertIn(str(x.string), test_lst)
+
+    def test_can_add_multiple_prefix_names(self):
+
+        test_lst = [
+            "Doctor",
+            "Sir",
+            "Honor",
+            "Ms",
+        ]
+
+        # make list of HumanNamePrefix objects
+        obj_lst = [HumanNamePrefix(string=x) for x in test_lst]
+        [x.save() for x in obj_lst]
+        [x.humanName.add(self.test_human_name) for x in obj_lst]
+
+        for x in HumanName.objects.get(pk=1).humannameprefix_set.all():
+            self.assertIn(str(x.string), test_lst)
+
+    def test_can_add_multiple_Suffix_names(self):
+
+        test_lst = [
+            "M.D.",
+            "M.S.",
+            "Ph.D.",
+            "M.B.A.",
+        ]
+
+        # make list of HumanNameSuffix objects
+        obj_lst = [HumanNameSuffix(string=x) for x in test_lst]
+        [x.save() for x in obj_lst]
+        [x.humanName.add(self.test_human_name) for x in obj_lst]
+
+        for x in HumanName.objects.get(pk=1).humannamesuffix_set.all():
+            self.assertIn(str(x.string), test_lst)
 
 class IdentifierTestCase(TestCase):
-    from fhir.models.complex_types.identifier import Identifier
+    pass
 
 class PeriodTestCase(TestCase):
-    from fhir.models.complex_types.period import Period
+    pass
 
 class QuantityTestCase(TestCase):
-    from fhir.models.complex_types.quantity import Quantity
+    pass
 
 class RangeTestCase(TestCase):
-    from fhir.models.complex_types.range import Range
+    pass
 
 class RatioTestCase(TestCase):
-    from fhir.models.complex_types.ratio import Ratio
+    pass
 
 class SampledDataTestCase(TestCase):
-    from fhir.models.complex_types.sampled_data import SampledData
+    pass
 
 class SignatureTestCase(TestCase):
-    from fhir.models.complex_types.signature import Signature
+    pass
 
 class SimpleQuantityTestCase(TestCase):
-    from fhir.models.complex_types.simple_quantity import SimpleQuantity
+    pass
 
 class TimingTestCase(TestCase):
-    from fhir.models.complex_types.timing import Timing, RepeatTiming
+    pass

@@ -5,7 +5,7 @@ from django.db import models
 from fhir.models.primiative_types.code import FhirCode
 
 class CodeableConcept(models.Model):
-    text = models.TextField(blank=True, max_length=100)
+    text = models.TextField(blank=True, null=True, max_length=100)
 
 class CodeableConceptCoding(FhirCode):
     codeableConcept = models.ManyToManyField(CodeableConcept)

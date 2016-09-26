@@ -1,3 +1,7 @@
+# primitive_types
+from primiative_types.code import FhirCode
+from primiative_types.string import FhirString
+
 # complex_types
 from complex_types.address import Address, AddressFhirString
 from complex_types.annotation import Annotation
