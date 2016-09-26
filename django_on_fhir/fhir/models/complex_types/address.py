@@ -23,7 +23,7 @@ class Address(models.Model):
 
     use = models.CharField(choices=USE_CHOICES, blank=True, max_length=100)
     type = models.CharField(choices=TYPE_CHOICES, blank=True, max_length=100)
-    text = models.TextField()
+    text = models.TextField(blank=True)
     city = models.CharField(blank=True, max_length=100)
     district = models.CharField(blank=True, max_length=100)
     state = models.CharField(blank=True, max_length=100)
