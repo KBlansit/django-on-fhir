@@ -8,10 +8,17 @@ from period import Period
 class HumanName(models.Model):
     # TODO: NameUse required for use
 
-    USE_CHOICES = ['usual', 'official', 'temp', 'nickname', 'anonymous',
-        'old', 'maiden']
+    USE_CHOICES = [
+        ('usual', 'usual'),
+        ('official', 'offical'),
+        ('temp', 'temp'),
+        ('nickname', 'nickname'),
+        ('anonymous', 'anonymous'),
+        ('old', 'old'),
+        ('maiden', 'maiden'),
+    ]
 
-    use = models.CharField(blank=True, max_length=1000)
+    use = models.CharField(choices=USE_CHOICES, blank=True, max_length=1000)
     text = models.CharField(blank=True, max_length=1000)
     period = models.ForeignKey(Period, blank=True, on_delete=models.CASCADE)
 

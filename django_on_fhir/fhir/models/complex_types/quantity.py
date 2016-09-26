@@ -6,10 +6,10 @@ class Quantity(models.Model):
     # TODO: QuantityComparator required for comparator
 
     COMPARATOR = [
-    ('<', 'less than'),
-    ('<=', 'less than or equal to'),
-    ('>=', 'greater than or equal to'),
-    ('>', 'greater than'),
+        ('<', 'less than'),
+        ('<=', 'less than or equal to'),
+        ('>=', 'greater than or equal to'),
+        ('>', 'greater than'),
     ]
 
     value = models.DecimalField(blank=True, max_digits=20, decimal_places=5)

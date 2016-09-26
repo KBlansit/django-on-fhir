@@ -10,17 +10,17 @@ class ContactPoint(models.Model):
     # TODO: verify value is present if system is present
 
     SYSTEM_CHOICES = [
-    ('phone', 'phone'),
-    ('fax', 'fax'),
-    ('email', 'email'),
-    ('pager', 'pager'),
-    ('other', 'other'),
+        ('phone', 'phone'),
+        ('fax', 'fax'),
+        ('email', 'email'),
+        ('pager', 'pager'),
+        ('other', 'other'),
     ]
     USE_CHOICES = [
-    ('home', 'home'),
-    ('work', 'work'),
-    ('temp' 'temp'),
-    ('old', 'old'),
+        ('home', 'home'),
+        ('work', 'work'),
+        ('temp' 'temp'),
+        ('old', 'old'),
     ]
 
     system = models.CharField(choices=SYSTEM_CHOICES, blank=True, max_length=100)

@@ -10,15 +10,15 @@ class Address(models.Model):
     # TODO: AddressType required for type
 
     USE_CHOICES = [
-    ('home', 'home'),
-    ('work', 'work'),
-    ('temp', 'temp'),
-    ('old', 'old'),
+        ('home', 'home'),
+        ('work', 'work'),
+        ('temp', 'temp'),
+        ('old', 'old'),
     ]
     TYPE_CHOICES = [
-    ('postal', 'period'),
-    ('physical', 'physical'),
-    ('both', 'both'),
+        ('postal', 'period'),
+        ('physical', 'physical'),
+        ('both', 'both'),
     ]
 
     use = models.CharField(choices=USE_CHOICES, blank=True, max_length=100)
